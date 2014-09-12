@@ -39,14 +39,6 @@ class BlockPuzzleTests {
     }
 
     @Test
-    def void testSolvedExceptTwo(){
-        BlockPuzzle puzzle = new BlockPuzzle(
-                puzzle: [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, null, 15]]
-        )
-        assert puzzle.solvedExceptTwo()
-    }
-
-    @Test
     def void generatePuzzle(){
         BlockPuzzle puzzle = BlockPuzzle.generate4x4()
         assert puzzle.puzzle == [

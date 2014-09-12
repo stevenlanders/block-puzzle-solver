@@ -167,19 +167,6 @@ class BlockPuzzle {
         lockedSpots.clear()
     }
 
-    private def solvedExceptTwo(){
-        int count = 0;
-        for(int i=0; i<puzzle.size(); i++){
-            for(int j=0;j<puzzle.size();j++){
-                if(puzzle[i][j] != solvedPuzzle[i][j]){
-                    count++;
-                }
-                if(count > 2) return false;
-            }
-        }
-        return count == 2
-    }
-
     private def moveValToSpot(def val, x, y){
         def location = findVal(val)
         def path = findNodePath(location[X], location[Y], x, y);
