@@ -4,7 +4,9 @@ import com.stevenlanders.blockpuzzle.BlockPuzzle
 import com.stevenlanders.blockpuzzle.BlockPuzzleUtility
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
 
 /**
@@ -17,8 +19,8 @@ class BlockPuzzleController {
 
     private static final int DEFAULT_PUZZLE_SIZE = 4
 
-    @RequestMapping("/solution")
-    def getSolution(@RequestParam String puzzle){
+    @RequestMapping(value="/solution", method = [RequestMethod.GET,RequestMethod.POST])
+    def @ResponseBody getSolution(@RequestParam String puzzle){
         try{
             BlockPuzzle blockPuzzle = BlockPuzzleUtility.parsePuzzleString(puzzle)
             blockPuzzle.solve()
@@ -32,14 +34,16 @@ class BlockPuzzleController {
     }
 
     @RequestMapping(["/",""])
-    def getPuzzleDefault(){
-        return getPuzzle(DEFAULT_PUZZLE_SIZE)
+    def @ResponseBody getPuzzleDefault(){
+        BlockPuzzle blockPuzzle = BlockPuzzle.generate(DEFAULT_PUZZLE_SIZE).shuffle()
+        return [puzzle: blockPuzzle.getPuzzle()]
     }
 
     @RequestMapping("/{size}")
-    def getPuzzle(@PathVariable Integer size){
+    def @ResponseBody getPuzzle(@PathVariable Integer size){
+        if(size > 1000) return [ error: "please don't go over 1000...thanks"]
         BlockPuzzle blockPuzzle = BlockPuzzle.generate(size).shuffle()
-        return [puzzle: blockPuzzle.toString()]
+        return [puzzle: blockPuzzle.getPuzzle()]
     }
 
 }

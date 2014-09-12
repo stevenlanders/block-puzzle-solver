@@ -272,7 +272,7 @@ class BlockPuzzle {
             throw new IllegalStateException("puzzle hasn't been initialized")
         }
         def moveList = [DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP]
-        (0..5000).each{
+        (0..(Math.max(5000, Math.pow(edgeSize, 3)))).each{
             Random r = new Random()
             move(moveList.get(r.nextInt(moveList.size())))
         }
@@ -293,8 +293,8 @@ class BlockPuzzle {
         return success
     }
 
-    def setPuzzle(def newPuzzle){
-        if(newPuzzle[0].size() != newPuzzle.size()){
+    def setPuzzle(def newPuzzle) {
+        if (newPuzzle[0].size() != newPuzzle.size()) {
             throw new IllegalArgumentException("Puzzle must be square!")
         }
 
@@ -303,15 +303,6 @@ class BlockPuzzle {
         this.puzzle = newPuzzle
         this.emptySpot = findVal(EMPTY_SPOT_VALUE)
         this.originalPuzzle = copyArray(puzzle)
-    }
-
-    private void replaceXWithNull(){
-        try{
-            def location = findVal("X")
-            set(location[X],location[Y],null)
-        }catch(e){
-            //noop
-        }
     }
 
     private def isLegalLocation(x,y){
