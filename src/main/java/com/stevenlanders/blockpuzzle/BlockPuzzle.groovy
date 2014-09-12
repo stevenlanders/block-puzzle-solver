@@ -43,7 +43,7 @@ class BlockPuzzle {
         (0..(edgeSize-3)).each{cornerIndex->
             solveEdges(cornerIndex)
         }
-        crunchLastSquare()
+        if(!isSolved()) crunchLastSquare()
         optimizeMoves()
         return this;
     }
