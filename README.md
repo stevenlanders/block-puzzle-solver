@@ -1,4 +1,14 @@
-This is a quick groovy sliding block puzzle solver.
+This is a quick groovy sliding block puzzle solver API
+
+Example:
+
+create 4x4 puzzle (GET)
+http://blockpuzzle-stevenlanders.rhcloud.com/puzzle/4
+
+solve puzzle (GET or POST)
+http://blockpuzzle-stevenlanders.rhcloud.com/solution?puzzle=[[8,12,3,14],[10,9,11,5],[1,"X",4,6],[2,7,13,15]]
+
+Solve examples
 
 ```groovy
 
