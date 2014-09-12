@@ -22,10 +22,14 @@ class BlockPuzzleController {
     def @ResponseBody getSolution(@RequestParam String puzzle){
         try{
             BlockPuzzle blockPuzzle = BlockPuzzleUtility.parsePuzzleString(puzzle)
+            long start = System.currentTimeMillis()
             blockPuzzle.solve()
+            long end = System.currentTimeMillis()
             def moves = blockPuzzle.getMoves()
             [
-                    moves: moves
+                    puzzle: blockPuzzle.getOriginalPuzzle(),
+                    moves: moves,
+                    duration: "${(end-start)}ms"
             ]
         }catch(IllegalArgumentException iae){
             return "invalid puzzle"
