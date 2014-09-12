@@ -16,6 +16,7 @@ class BlockPuzzle {
     private def lockedColumns = [];
     private def lockedSpots=[];
     def moves = [];
+    public static final String EMPTY_SPOT_VALUE = "X"
 
     public static final String DIRECTION_UP = "up"
     public static final String DIRECTION_DOWN = "down"
@@ -36,7 +37,7 @@ class BlockPuzzle {
         this.lockedColumns = []
         this.lockedSpots = []
         this.moves = [];
-        emptySpot = findVal(null)
+        emptySpot = findVal(EMPTY_SPOT_VALUE)
     }
 
     def solve(){
@@ -258,7 +259,7 @@ class BlockPuzzle {
     private def findVal(def val){
         for(int i=0;i<puzzle.size();i++){
             for(int j =0;j<puzzle.size();j++){
-                if(puzzle[i][j]==val){
+                if(("${puzzle[i][j]}".toLowerCase().equals("${val}".toLowerCase()))){
                     return [i,j]
                 }
             }
@@ -296,13 +297,22 @@ class BlockPuzzle {
         if(newPuzzle[0].size() != newPuzzle.size()){
             throw new IllegalArgumentException("Puzzle must be square!")
         }
+
         this.edgeSize = newPuzzle.size()
         this.solvedPuzzle = generateSolvedPuzzleArray(newPuzzle.size())
         this.puzzle = newPuzzle
-        this.emptySpot = findVal(null)
-        this.originalPuzzle = copyArray(newPuzzle)
+        this.emptySpot = findVal(EMPTY_SPOT_VALUE)
+        this.originalPuzzle = copyArray(puzzle)
     }
 
+    private void replaceXWithNull(){
+        try{
+            def location = findVal("X")
+            set(location[X],location[Y],null)
+        }catch(e){
+            //noop
+        }
+    }
 
     private def isLegalLocation(x,y){
         if(lockedRows.contains(x) || lockedColumns.contains(y)){
@@ -323,7 +333,7 @@ class BlockPuzzle {
     private def swapEmpty(x,y){
         if(isLegalLocation(x,y)) {
             def currentVal = val(x, y)
-            puzzle[x][y] = null
+            puzzle[x][y] = EMPTY_SPOT_VALUE
             puzzle[emptyX()][emptyY()] = currentVal
             emptySpot = [x,y]
             return true;
@@ -378,6 +388,7 @@ class BlockPuzzle {
             int x = num / edgeSize
             bPuzzle[x][y] = num+1
         }
+        bPuzzle[edgeSize-1][edgeSize-1] = EMPTY_SPOT_VALUE
         return bPuzzle
     }
 
