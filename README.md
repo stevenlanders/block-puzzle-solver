@@ -1,4 +1,4 @@
-This is a quick groovy sliding block puzzle solver API
+This is a sliding block puzzle solver API
 
 Example:
 
