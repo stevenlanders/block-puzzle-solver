@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController
  */
 
 @RestController
-@RequestMapping("/blockpuzzle")
 class BlockPuzzleController {
 
     private static final int DEFAULT_PUZZLE_SIZE = 4
@@ -29,17 +28,17 @@ class BlockPuzzleController {
                     moves: moves
             ]
         }catch(IllegalArgumentException iae){
-            return "invalid"
+            return "invalid puzzle"
         }
     }
 
-    @RequestMapping(["/",""])
+    @RequestMapping(["/puzzle","/puzzle/"])
     def @ResponseBody getPuzzleDefault(){
         BlockPuzzle blockPuzzle = BlockPuzzle.generate(DEFAULT_PUZZLE_SIZE).shuffle()
         return [puzzle: blockPuzzle.getPuzzle()]
     }
 
-    @RequestMapping("/{size}")
+    @RequestMapping("/puzzle/{size}")
     def @ResponseBody getPuzzle(@PathVariable Integer size){
         if(size > 1000) return [ error: "please don't go over 1000...thanks"]
         BlockPuzzle blockPuzzle = BlockPuzzle.generate(size).shuffle()
