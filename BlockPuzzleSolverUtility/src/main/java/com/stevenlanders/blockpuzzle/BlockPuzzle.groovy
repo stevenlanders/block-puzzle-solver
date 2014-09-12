@@ -91,11 +91,16 @@ class BlockPuzzle {
 
     private def crunchLastSquare(){
         gotoSpot(edgeSize-1, edgeSize-1)
-        while(!isSolved()){
+        int protection = 0;
+        while(!isSolved() && protection < 10){
             left()
             up()
             right()
             down()
+            protection++;
+        }
+        if(!isSolved()){
+            throw new IllegalArgumentException("Impossible puzzle ${puzzle}")
         }
     }
 
