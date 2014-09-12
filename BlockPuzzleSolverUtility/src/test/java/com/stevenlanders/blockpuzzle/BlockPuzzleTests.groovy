@@ -226,7 +226,7 @@ class BlockPuzzleTests {
 
     @Test
     def void testHuge(){
-        assert BlockPuzzle.generate(50).shuffle().solve().isSolved()
+        assert BlockPuzzle.generate(20).shuffle().solve().isSolved()
     }
 
     @Test
