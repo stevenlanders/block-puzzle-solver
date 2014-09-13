@@ -193,4 +193,4 @@ moves.each{move->
 
 Algorithm Summary:
 
-Starting at top left corner, for each row/column pair, solve each ROW then COLUMN, until puzzle is solved at the bottom right square.  This does not find the shortest path, but runs at a reasonable complexity (solving 50x50 takes about 4 seconds)
+Starting at top left corner, for each row/column pair, solve each ROW then COLUMN, until puzzle is solved at the bottom right square.  This does not find the shortest path, but runs at a reasonable complexity.
