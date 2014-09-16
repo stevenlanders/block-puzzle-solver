@@ -24,12 +24,12 @@ class BlockPuzzleController {
             BlockPuzzle blockPuzzle = BlockPuzzleUtility.parsePuzzleString(puzzle)
             long start = System.currentTimeMillis()
             blockPuzzle.solve()
-            long end = System.currentTimeMillis()
+            long duration = System.currentTimeMillis()-start
             def moves = blockPuzzle.getMoves()
             [
                     puzzle: blockPuzzle.getOriginalPuzzle(),
                     moves: moves,
-                    duration: "${(end-start)}ms"
+                    duration: duration+"ms"
             ]
         }catch(IllegalArgumentException iae){
             return "invalid puzzle"
