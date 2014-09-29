@@ -1,13 +1,16 @@
 This is a sliding block puzzle solver API
 
+Example basic webpage puzzle:
+http://blockpuzzle-stevenlanders.rhcloud.com/puzzle
+
 Example:
 
 ````
 //create 4x4 puzzle (GET)
-http://blockpuzzle-stevenlanders.rhcloud.com/puzzle/4
+http://blockpuzzle-stevenlanders.rhcloud.com/rest/puzzle/4
 
 //solve puzzle (GET or POST)
-http://blockpuzzle-stevenlanders.rhcloud.com/solution?puzzle=[[8,12,3,14],[10,9,11,5],[1,"X",4,6],[2,7,13,15]]
+http://blockpuzzle-stevenlanders.rhcloud.com/rest/solution?puzzle=[[8,12,3,14],[10,9,11,5],[1,"X",4,6],[2,7,13,15]]
 ````
 
 Solution Response Example:

@@ -19,7 +19,6 @@ class BlockPuzzleTests {
         puzzle.moves = ["up","down","left","right","up"]
         puzzle.optimizeMoves()
         assert puzzle.moves == ["up"]
-
     }
 
     @Test

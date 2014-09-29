@@ -118,16 +118,16 @@ class BlockPuzzle {
             lockSpot(edge,col)
         }
 
-        //dig last one out of there
+        //dig last one out of there, in 1,2,3,4 - this is 4
         def lastValInRow = solvedPuzzle[edge][edgeSize - 1]
         moveValToSpot(lastValInRow, edgeSize - 1, edgeSize - 1)
 
-        //stage second to last
+        //stage second to last, in 1,2,3,4 - this is 3
         def val = solvedPuzzle[edge][edgeSize - 2]
         moveValToSpot(val, edge, edgeSize-1)
         lockSpot(edge,edgeSize-1)
 
-        //stage last val
+        //stage last val (4)
         moveValToSpot(lastValInRow, edge+1, edgeSize-1)
         lockSpot(edge+1,edgeSize-1)
 
@@ -253,7 +253,13 @@ class BlockPuzzle {
     }
 
     def printPuzzle(){
-        println(puzzle)
+        println("")
+        for(int i=0; i<puzzle.length;i++){
+            for(int j=0;j<puzzle.length; j++){
+                print(puzzle[i][j]+",")
+            }
+            println("")
+        }
     }
 
     private def findVal(def val){
