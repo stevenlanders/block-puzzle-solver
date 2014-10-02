@@ -34,7 +34,7 @@
 </head>
 <body>
 <span data-bind="visible: moves().length == 0">
-    <select data-bind="value:size">
+    size: <select data-bind="value:size">
         <option>3</option>
         <option>4</option>
         <option>5</option>
@@ -43,6 +43,13 @@
         <option>8</option>
         <option>9</option>
         <option>10</option>
+    </select>
+    speed: <select data-bind="value:speed">
+        <option value="10">very fast</option>
+        <option value="50">fast</option>
+        <option value="100">medium</option>
+        <option value="250">slow</option>
+        <option value="500">very slow</option>
     </select>
     <button data-bind="click: update">shuffle</button>
     <button data-bind="click: solve">solve</button>
@@ -83,6 +90,7 @@
         var self = this;
         self.puzzle = ko.observableArray([[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,"X"]]);
         self.size = ko.observable(4);
+        self.speed = ko.observable(100);
 
         self.update = function(){
             getJson("/rest/puzzle/"+self.size(), function(jsonObj){
@@ -99,7 +107,7 @@
         self.moves.subscribe(function(newMoveList){
             if(newMoveList.length > 0){
                 model.move(newMoveList[0]);
-                setTimeout("model.incrementMove()",100);
+                setTimeout("model.incrementMove()",self.speed());
             }
         });
 
