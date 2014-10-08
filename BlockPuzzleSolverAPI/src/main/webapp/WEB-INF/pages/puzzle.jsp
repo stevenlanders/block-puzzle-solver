@@ -15,12 +15,21 @@
             border-collapse: separate;
             border: 2px solid #000000;
         }
+        input{
+            width:40px;
+            border:1px solid #ffffff;
+            font-size: 24px;
+            padding:0px;
+            margin:0px;
+        }
         td{
             height: 50px;
             width: 50px;
             font-size: 24px;
             text-align: center;
             border: 2px solid #000000;
+            padding: 0px;
+            margin:0px;
 
         }
         .active{
@@ -43,8 +52,12 @@
         <option>8</option>
         <option>9</option>
         <option>10</option>
+        <option>15</option>
+        <option>20</option>
+        <option>25</option>
     </select>
     speed: <select data-bind="value:speed">
+        <option value="1">stupid fast</option>
         <option value="10">very fast</option>
         <option value="50">fast</option>
         <option value="100">medium</option>
@@ -54,7 +67,7 @@
     <button data-bind="click: update">shuffle</button>
     <button data-bind="click: solve">solve</button>
 </span>
-<table data-bind="foreach: { data: puzzle, as: 'row' }">
+<table cellpadding="0" cellspacing="0" data-bind="foreach: { data: puzzle, as: 'row' }">
   <tr data-bind="foreach: {data : row, as: 'val'}">
       <td data-bind="text: val, css: {active: val == 'X',inactive: val != 'X'}"></td>
   </tr>
@@ -88,7 +101,7 @@
 
     function PuzzleViewModel(){
         var self = this;
-        self.puzzle = ko.observableArray([[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,"X"]]);
+        self.puzzle = ko.observableArray();
         self.size = ko.observable(4);
         self.speed = ko.observable(100);
 

@@ -230,6 +230,11 @@ class BlockPuzzleTests {
     }
 
     @Test
+    def void testSolve3x3(){
+        assert BlockPuzzle.generate(3).shuffle().solve().isSolved();
+    }
+
+    @Test
     def void testSolveColumn(){
         BlockPuzzle puzzle = new BlockPuzzle(
                 puzzle: [

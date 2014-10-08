@@ -112,6 +112,7 @@ class BlockPuzzle {
     }
 
     private def solveRow(def edge){
+        //solve all spots except last two entries
         (edge..edgeSize-3).each{col->
             def val = solvedPuzzle[edge][col]
             moveValToSpot(val, edge, col)
@@ -120,7 +121,10 @@ class BlockPuzzle {
 
         //dig last one out of there, in 1,2,3,4 - this is 4
         def lastValInRow = solvedPuzzle[edge][edgeSize - 1]
-        moveValToSpot(lastValInRow, edgeSize - 1, edgeSize - 1)
+        def location = findVal(lastValInRow);
+        if(getDistance(edge,edgeSize-1,location[X], location[Y]) < 3) {
+            moveValToSpot(lastValInRow, edgeSize - 1, edgeSize - 1)
+        }
 
         //stage second to last, in 1,2,3,4 - this is 3
         def val = solvedPuzzle[edge][edgeSize - 2]
