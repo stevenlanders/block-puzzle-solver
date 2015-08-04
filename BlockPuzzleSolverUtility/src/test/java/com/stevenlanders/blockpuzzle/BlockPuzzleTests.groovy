@@ -14,6 +14,27 @@ class BlockPuzzleTests {
     }
 
     @Test
+    def void testTernary(){
+        def maxNum = 8
+        def it = 8
+        assert 7 == ((it == maxNum) ? maxNum-1 : (it==maxNum-1) ? maxNum : it)
+    }
+
+    @Test
+    def void testTernary2(){
+        def maxNum = 8
+        def it = 7
+        assert 8 == ((it == maxNum) ? maxNum-1 : (it==maxNum-1) ? maxNum : it)
+    }
+
+    @Test
+    def void testTernary3(){
+        def maxNum = 8
+        def it = 6
+        assert 6 == ((it == maxNum) ? maxNum-1 : (it==maxNum-1) ? maxNum : it)
+    }
+
+    @Test
     def void testOptimizeMoves(){
         BlockPuzzle puzzle = BlockPuzzle.generate4x4()
         puzzle.moves = ["up","down","left","right","up"]
@@ -29,7 +50,7 @@ class BlockPuzzleTests {
 
     @Test
     def void testReset(){
-       def puzzle =  BlockPuzzle.generate4x4().shuffle()
+       def puzzle =  BlockPuzzle.generateShuffled(4)
         puzzle.solve()
         def moves = puzzle.getMoves()
         puzzle.reset()
@@ -52,7 +73,7 @@ class BlockPuzzleTests {
 
     @Test
     def void testSolve10x10(){
-        assert BlockPuzzle.generate(10).shuffle().solve()
+        assert BlockPuzzle.generateShuffled(10).solve()
     }
 
     @Test
@@ -64,7 +85,7 @@ class BlockPuzzleTests {
 
     @Test
     def void solveAndPlayback(){
-        def puzzle = BlockPuzzle.generate4x4().shuffle().solve()
+        def puzzle = BlockPuzzle.generateShuffled(4).solve()
         def moves = puzzle.getMoves()
         puzzle.reset()
         assert !puzzle.isSolved()
@@ -105,6 +126,14 @@ class BlockPuzzleTests {
         assert puzzle.originalPuzzle == [[1, 13, 9, 5], [EMPTY_SPOT_VALUE, 2, 14, 6], [12, 4, 3, 11], [10, 8, 7, 15]]
         puzzle.shuffle()
         assert puzzle.puzzle == puzzle.originalPuzzle
+    }
+
+    @Test
+    def void testSolveSwappyRow(){
+        BlockPuzzle puzzle = new BlockPuzzle(
+                puzzle: [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 12, 11], [13, 15, 14, EMPTY_SPOT_VALUE]]
+        )
+        assert puzzle.solve().isSolved()
     }
 
     @Test
@@ -150,13 +179,13 @@ class BlockPuzzleTests {
     @Test
     def void testSolve(){
         (0..100).each {
-            assert BlockPuzzle.generate4x4().shuffle().solve()
+            assert BlockPuzzle.generateShuffled(4).solve()
         }
     }
 
     @Test
     def void testGenerateSolve3x3(){
-        assert BlockPuzzle.generate(3).shuffle().solve().isSolved()
+        assert BlockPuzzle.generateShuffled(3).solve().isSolved()
     }
 
     @Test
@@ -184,14 +213,13 @@ class BlockPuzzleTests {
     @Test
     def void testGenerateSolve5x5(){
         (0..10).each {
-            BlockPuzzle puzzle = BlockPuzzle.generate(5)
-            puzzle.shuffle()
+            BlockPuzzle puzzle = BlockPuzzle.generateShuffled(5)
             assert puzzle.solve().isSolved()
         }
     }
 
     @Test
-    def void testBad5x5(){
+    def void testDifficult5x5(){
         BlockPuzzle puzzle = new BlockPuzzle(
                 puzzle: [[11, 5, EMPTY_SPOT_VALUE, 9, 8], [19, 23, 21, 10, 3], [4, 20, 12, 22, 7], [16, 15, 1, 6, 17], [24, 13, 14, 2, 18]]
         )
@@ -200,7 +228,7 @@ class BlockPuzzleTests {
 
     @Test
     def void testGenerateSolve(){
-        BlockPuzzle puzzle = BlockPuzzle.generate4x4().shuffle()
+        BlockPuzzle puzzle = BlockPuzzle.generateShuffled(4)
         assert puzzle.solve().isSolved()
         assert puzzle.puzzle == [
                 [1,2,3,4],
@@ -226,12 +254,12 @@ class BlockPuzzleTests {
 
     @Test
     def void testHuge(){
-        assert BlockPuzzle.generate(20).shuffle().solve().isSolved()
+        assert BlockPuzzle.generateShuffled(20).solve().isSolved()
     }
 
     @Test
     def void testSolve3x3(){
-        assert BlockPuzzle.generate(3).shuffle().solve().isSolved();
+        assert BlockPuzzle.generateShuffled(3).solve().isSolved();
     }
 
     @Test

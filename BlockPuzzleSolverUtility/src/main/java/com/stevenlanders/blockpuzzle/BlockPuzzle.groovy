@@ -1,5 +1,4 @@
 package com.stevenlanders.blockpuzzle
-
 /**
  * Created by stevenlanders on 9/8/14.
  */
@@ -236,12 +235,12 @@ class BlockPuzzle {
     }
 
     private def getAdjacentNodes(x,y){
-           [ [spot: [x, y+1], moveName: DIRECTION_RIGHT, move: {right()}],
-             [spot: [x, y-1], moveName: DIRECTION_LEFT, move: {left()}],
-             [spot: [x+1, y], moveName: DIRECTION_DOWN, move: {down()}],
-             [spot: [x-1, y], moveName: DIRECTION_UP, move: {up()}]].findAll{
-               isLegalLocation(it.spot[X], it.spot[Y])
-           }
+        [ [spot: [x, y+1], moveName: DIRECTION_RIGHT, move: {right()}],
+          [spot: [x, y-1], moveName: DIRECTION_LEFT, move: {left()}],
+          [spot: [x+1, y], moveName: DIRECTION_DOWN, move: {down()}],
+          [spot: [x-1, y], moveName: DIRECTION_UP, move: {up()}]].findAll{
+            isLegalLocation(it.spot[X], it.spot[Y])
+        }
     }
 
     private def gotoSpot(x,y){
@@ -366,6 +365,30 @@ class BlockPuzzle {
     static def generate(int edgeSize){
         return new BlockPuzzle(
                 puzzle: generateSolvedPuzzleArray(edgeSize)
+        )
+    }
+
+    static BlockPuzzle generateShuffled(int edgeSize){
+        def tempPuzz = (0..((edgeSize*edgeSize)-1)).collect{it==0 ? EMPTY_SPOT_VALUE : it}
+        Collections.shuffle(tempPuzz)
+        BlockPuzzle tempPuzzle = blockPuzzleFromArray(tempPuzz, edgeSize)
+        try {
+            tempPuzzle.solve()
+        }catch(IllegalArgumentException iae){
+            tempPuzz = swapMaxValues(tempPuzz)
+        }
+        return blockPuzzleFromArray(tempPuzz, edgeSize)
+    }
+
+    static List swapMaxValues(List puzz){
+        def val1 = puzz.size()-1
+        def val2 = puzz.size()-2
+        puzz.collect{ it == val1 ? val2 : it == val2 ? val1 : it}
+    }
+
+    private static def blockPuzzleFromArray(def arr, def edgeSize){
+        return new BlockPuzzle(
+                puzzle: arr.collate(edgeSize)
         )
     }
 

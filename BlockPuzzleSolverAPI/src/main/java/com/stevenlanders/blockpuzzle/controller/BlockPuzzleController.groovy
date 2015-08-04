@@ -42,7 +42,7 @@ class BlockPuzzleController {
 
     @RequestMapping(["/rest/puzzle","/rest/puzzle/"])
     def @ResponseBody getPuzzleDefault(){
-        BlockPuzzle blockPuzzle = BlockPuzzle.generate(DEFAULT_PUZZLE_SIZE).shuffle()
+        BlockPuzzle blockPuzzle = BlockPuzzle.generateShuffled(DEFAULT_PUZZLE_SIZE)
         return [puzzle: blockPuzzle.getPuzzle()]
     }
 
