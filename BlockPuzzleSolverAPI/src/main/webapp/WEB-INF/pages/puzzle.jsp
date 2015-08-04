@@ -64,7 +64,7 @@
         <option value="250">slow</option>
         <option value="500">very slow</option>
     </select>
-    <button data-bind="click: update">shuffle</button>
+    <button data-bind="click: update">new puzzle</button>
     <button data-bind="click: solve">solve</button>
 </span>
 <table cellpadding="0" cellspacing="0" data-bind="foreach: { data: puzzle, as: 'row' }">
