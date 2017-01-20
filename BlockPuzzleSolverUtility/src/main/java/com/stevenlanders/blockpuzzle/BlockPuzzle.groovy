@@ -40,6 +40,9 @@ class BlockPuzzle {
     }
 
     def solve(){
+        if(isSolved()){
+            return this
+        }
         (0..(edgeSize-3)).each{cornerIndex->
             solveEdges(cornerIndex)
         }
@@ -252,7 +255,7 @@ class BlockPuzzle {
         path.each{
             it.move()
         }
-        return true;
+        return true
     }
 
     def printPuzzle(){
@@ -265,6 +268,7 @@ class BlockPuzzle {
         }
     }
 
+
     private def findVal(def val){
         for(int i=0;i<puzzle.size();i++){
             for(int j =0;j<puzzle.size();j++){
@@ -273,21 +277,51 @@ class BlockPuzzle {
                 }
             }
         }
-        throw new IllegalStateException("puzzle couldn't find ${val} when searching")
+        throw new IllegalStateException("puzzle 2 couldn't find ${val} when searching: ${puzzle}, ${originalPuzzle}")
+    }
+
+    private void shuffleFisherYates() {
+        def a = puzzle
+        Random random = new Random();
+
+        for (int i = a.size() - 1; i > 0; i--) {
+            for (int j = a[i].size() - 1; j > 0; j--) {
+                int m = random.nextInt(i + 1);
+                int n = random.nextInt(j + 1);
+
+                def temp = a[i][j];
+                a[i][j] = a[m][n];
+                a[m][n] = temp;
+            }
+        }
+        this.emptySpot = findVal(EMPTY_SPOT_VALUE)
+        this.originalPuzzle = copyArray(puzzle)
+        this.moves = []
     }
 
     def shuffle(){
         if(puzzle == null){
             throw new IllegalStateException("puzzle hasn't been initialized")
         }
-        def moveList = [DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP]
-        (0..(Math.max(5000, Math.pow(edgeSize, 3)))).each{
-            Random r = new Random()
-            move(moveList.get(r.nextInt(moveList.size())))
+
+        shuffleFisherYates()
+        while(!isSolveable()){
+            shuffleFisherYates()
         }
-        this.originalPuzzle = copyArray(puzzle)
         this.moves = []
         return this
+    }
+
+    def isSolveable(){
+        def result = true
+        try{
+            solve()
+        }catch(IllegalArgumentException iae){
+            result = false
+        }finally{
+            reset()
+        }
+        return result
     }
 
     def move(direction){
@@ -357,7 +391,6 @@ class BlockPuzzle {
         return puzzle[x][y]
     }
 
-
     static def generate4x4(){
         return generate(4)
     }
@@ -369,27 +402,7 @@ class BlockPuzzle {
     }
 
     static BlockPuzzle generateShuffled(int edgeSize){
-        def tempPuzz = (0..((edgeSize*edgeSize)-1)).collect{it==0 ? EMPTY_SPOT_VALUE : it}
-        Collections.shuffle(tempPuzz)
-        BlockPuzzle tempPuzzle = blockPuzzleFromArray(tempPuzz, edgeSize)
-        try {
-            tempPuzzle.solve()
-        }catch(IllegalArgumentException iae){
-            tempPuzz = swapMaxValues(tempPuzz)
-        }
-        return blockPuzzleFromArray(tempPuzz, edgeSize)
-    }
-
-    static List swapMaxValues(List puzz){
-        def val1 = puzz.size()-1
-        def val2 = puzz.size()-2
-        puzz.collect{ it == val1 ? val2 : it == val2 ? val1 : it}
-    }
-
-    private static def blockPuzzleFromArray(def arr, def edgeSize){
-        return new BlockPuzzle(
-                puzzle: arr.collate(edgeSize)
-        )
+        return generate(edgeSize).shuffle()
     }
 
     private static def copyArray(originalArray){

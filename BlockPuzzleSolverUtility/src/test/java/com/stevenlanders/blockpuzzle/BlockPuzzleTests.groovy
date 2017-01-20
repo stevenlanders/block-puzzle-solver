@@ -14,38 +14,11 @@ class BlockPuzzleTests {
     }
 
     @Test
-    def void testTernary(){
-        def maxNum = 8
-        def it = 8
-        assert 7 == ((it == maxNum) ? maxNum-1 : (it==maxNum-1) ? maxNum : it)
-    }
-
-    @Test
-    def void testTernary2(){
-        def maxNum = 8
-        def it = 7
-        assert 8 == ((it == maxNum) ? maxNum-1 : (it==maxNum-1) ? maxNum : it)
-    }
-
-    @Test
-    def void testTernary3(){
-        def maxNum = 8
-        def it = 6
-        assert 6 == ((it == maxNum) ? maxNum-1 : (it==maxNum-1) ? maxNum : it)
-    }
-
-    @Test
     def void testOptimizeMoves(){
         BlockPuzzle puzzle = BlockPuzzle.generate4x4()
         puzzle.moves = ["up","down","left","right","up"]
         puzzle.optimizeMoves()
         assert puzzle.moves == ["up"]
-    }
-
-    @Test
-    def void stageFourTest() {
-        def list = [[1, 2]]
-        assert list.contains([1, 2])
     }
 
     @Test
