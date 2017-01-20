@@ -1,4 +1,4 @@
-This is a sliding block puzzle solver API
+This is a sliding block puzzle solver w/API
 
 Example basic webpage puzzle:
 http://blockpuzzle-stevenlanders.rhcloud.com/puzzle
