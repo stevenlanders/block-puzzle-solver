@@ -1,7 +1,7 @@
 This is a sliding block puzzle solver w/API
 
 Example basic webpage puzzle:
-http://blockpuzzle-stevenlanders.rhcloud.com/puzzle
+http://block-puzzle-solver-block-puzzle-solver.193b.starter-ca-central-1.openshiftapps.com/puzzle
 
 Example:
 
